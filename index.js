@@ -19,13 +19,13 @@ function getFinals(data) {
 
     const finals = data.filter(match => match.stage === 'final');
     return finals;
-};
+}
 console.log(getFinals(fifaData));
 
 /* Task 3: Implement a higher-order function called `getYears` that accepts the callback function `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 fuction getYears(cb, data) {
     return cb(data).map(match => match.Year)
-};
+}
 
 console.log(getYears(getFinals, fifaData));
 
@@ -38,7 +38,7 @@ console.log(getYears(getFinals, fifaData));
 
 function getWinners(cb)
 const winners = cb(fifaData).map(match =>
-    if (match['Home Team Goals'] > match[]["Away Team Goals"]) {
+    if (match['Home Team Goals'] > match["Away Team Goals"]) {
     {
         return match["Home Team name"];
     else
@@ -60,7 +60,7 @@ function getWinnersByYear(winnerscb, yearcb) {
         const winners = winnerscb(getFinals);
         const year = yearscb(getFinals, fifaData);
         return years.map((year, index) => 'In ${year},${winners[index]}won the world cup');
-    };
+    }
 
 (getWinners, getYears));
 
@@ -69,13 +69,19 @@ function getWinnersByYear(winnerscb, yearcb) {
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(data, teaminitials) {
+function getCountryWins(data, teamInitials) {
+    const winnerInitials = data.map(match => {
+              if (match["Home Team Goals"] > match["Away Team Goals"]) {
+              return { initials: match["Home Team Initials"], name: match["Home Team Name"] }
+             } else {
+                   return { initials: match["Away Team Initials"], name: match["Away Team Name"] }
+                }
+            })
+         const winName = winnerInitials.filter(name => name.initials === teamInitials)
+           return `${winName[0] ? winName[0].name : teamInitials} has ${winName.length} World Cup win${winName.length === 1 ? '.' : 's.'}`
+         };
 
-    const wins = data.reduce =>teaminitials==='Wins;
-    return teaminitials;
-};
-
-console.log(getCountryWins(getFinals, fifaData));
+console.log(getCountryWins(getFinals( fifaData),"GER"));
 
 
 
